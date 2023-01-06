@@ -10,7 +10,7 @@ function TodoList({todo, setTodo}){
         setTodo(newTodo)
     }
 
-    function doneTodo(id){
+    function handleDone(id){
         let newTodo = [...todo].filter(item => {
             if(item.id==id){
                 item.status = !item.status
@@ -36,21 +36,22 @@ function TodoList({todo, setTodo}){
         setEdit(null)
     }
 
+
     return (
         <div>
             
             {
                 todo.map( item=>(
                     <div key={item.id}>
+                        <input type="checkbox" checked={item.status} onChange={() => handleDone(item.id)} />
                         {
                             edit==item.id ? 
                             <div>
                                 <input onChange={ (e)=>setValue(e.target.value)} value={value} />
                                 <button onClick={ ()=>saveTodo(item.id)}>save</button>
                             </div> :
-                            <div>{ item.title} 
+                            <div style={{ textDecoration: item.status ? 'line-through' : 'none'}}>{ item.title} 
                                     <button onClick={ ()=>deleteTodo(item.id)}>Delete</button>
-                                    <button onClick={ ()=>doneTodo(item.id)}>Done</button>
                                     <button onClick={ ()=>editTodo(item.id, item.title)}>Edit</button>                            
                             </div>
                         }    
